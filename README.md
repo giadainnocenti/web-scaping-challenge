@@ -17,6 +17,20 @@ The following websites were scraped:
 # 2. MongoDB and Flask Application
 - The jupyter notebook was adapted to be used as a function reported in [python script](./Mission_to_Mars/scrape_mars.py). 
 - A database called mission_to_mars containing a collection called mars were created by using [MongoDB Compass](https://www.mongodb.com/products/compass). 
+  -The database needs to be created before-hand only if you use pymongo and this type of connection:
+  ```python
+    import pymongo
+    conn = "mongodb://localhost:27017/mission_to_mars"
+    client = pymongo.MongoClient(conn)
+    ```
+   -The creation of the database is not necessary if PyMongo is used and the connection is coded as:
+   ```python
+   from flask_pymongo import PyMongo
+   conn = "mongodb://localhost:27017/mission_to_mars"
+   client = PyMongo(app, uri=conn)
+   ````
+  _**Another important difference between the two approach to the problem is that with the first one your database is not updated with the scraped information while in the second it is.**_
+  
 - [app.py](./Mission_to_Mars/app.py) was developed with two paths:
     1. The home root is rendering the database using the [html](./Mission_to_Mars/Templates/index.html) file created using [bootstraps](https://getbootstrap.com/docs/5.0/examples/).
     ```python
