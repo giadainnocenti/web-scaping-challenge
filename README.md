@@ -15,8 +15,16 @@ The following websites were scraped:
  * [Mars Hemispheres](https://astrogeology.usgs.gov/search/results?q=hemisphere+enhanced&k1=target&v1=Mars)
     High resolution images of each of Mars' hemisphere were scraped.
 # 2. MongoDB and Flask Application
-
-
+- The jupyter notebook was adapted to be used as a function reported in [python script](./Mission_to_Mars/scrape_mars.py). /
+- A database called mission_to_mars containing a collection called mars were created by using MongoDB Compass. /
+- [app.py](./Mission_to_Mars/app.py) was developed with two paths:
+    '''python
+    @app.route("/")
+    def index():
+        mars = client.db.mars.find_one()
+        return render_template( "index.html", mars=mars)
+      '''
+    
 
 # HTML Page
 ![Mars_info_web](./Mission_to_Mars/pictures/Capture.PNG)
