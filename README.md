@@ -15,3 +15,8 @@ The following websites were scraped:
  * [Mars Hemispheres](https://astrogeology.usgs.gov/search/results?q=hemisphere+enhanced&k1=target&v1=Mars)
     High resolution images of each of Mars' hemisphere were scraped.
 # 2. MongoDB and Flask Application
+
+
+
+# HTML Page
+![Mars_info_web](./Mission_to_Mars/pictures/Capture.PNG)
