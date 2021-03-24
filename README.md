@@ -18,12 +18,22 @@ The following websites were scraped:
 - The jupyter notebook was adapted to be used as a function reported in [python script](./Mission_to_Mars/scrape_mars.py). /
 - A database called mission_to_mars containing a collection called mars were created by using MongoDB Compass. /
 - [app.py](./Mission_to_Mars/app.py) was developed with two paths:
-    '''python
+    1. The home root is rendering the database using the [html](./Mission_to_Mars/Templates/index.html) file created using [bootstraps](https://getbootstrap.com/docs/5.0/examples/).
+    ```python
     @app.route("/")
     def index():
         mars = client.db.mars.find_one()
         return render_template( "index.html", mars=mars)
-      '''
+     ```
+     2. The second root is doing the scraping in the background the first time the web page is opened and every time the button is clicked.
+     ```python
+        @app.route("/scrape")
+        def scraper():
+            mars = client.db.mars
+            mars_data = scrape_mars.scrape()
+            mars.update({}, mars_data,upsert=True)
+            return redirect("/", code=302)
+       ```
     
 
 # HTML Page
