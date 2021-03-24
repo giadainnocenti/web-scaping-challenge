@@ -33,7 +33,7 @@ The following websites were scraped:
             mars_data = scrape_mars.scrape()
             mars.update({}, mars_data,upsert=True)
             return redirect("/", code=302)
-       ```
+      ```
     
 
 # HTML Page
