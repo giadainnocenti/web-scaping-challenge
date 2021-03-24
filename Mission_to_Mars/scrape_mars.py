@@ -25,13 +25,18 @@ def get_NASA(url_nasa=url_nasa):
     #check if you can find the website
     browser = visit_check_url(url_nasa)
     #creating a BEautifulSoup object
-    soup = bs(browser.html, 'html.parser')
-    #reading the latest News Title
-    news_title = soup.find_all('div', class_='content_title')[0].text
-    #reading the latest news body
-    paragraph = soup.find_all('div', class_="article_teaser_body")[0].text   
+    soup = bs(browser.html, 'html.parser')   
+    
+    try:
+        #reading the latest News Title
+        news_title = soup.find_all('div', class_='content_title')[0].text
+        #reading the latest news body
+        paragraph = soup.find_all('div', class_="article_teaser_body")[0].text
+        print(f'NASA website {url_nasa} was scraped successfully!')
+    except:
+        print(f'I had a problem scraping the NASA website {url_nasa}...')
     browser.quit()
-    return news_title, patagraph
+    return news_title, paragraph
 
 def get_JPL(url_jpl=url_jpl):
     #check if you can find the website
@@ -40,8 +45,12 @@ def get_JPL(url_jpl=url_jpl):
     browser.links.find_by_partial_text('FULL IMAGE').click()
     #scraping the page with BS
     soup = bs(browser.html, 'html.parser')
-    #saving the image url, sometimes it does not find mars3.jpg I am not sure why
-    featured_image_url = url_jpl.replace("index.html", soup.find(class_="fancybox-image")["src"]) 
+    try:
+        #saving the image url, sometimes it does not find mars3.jpg I am not sure why
+        featured_image_url = url_jpl.replace("index.html", soup.find(class_="fancybox-image")["src"]) 
+        print(f'I saved the featured image from JPL {url_jpl}!')
+    except():
+        print(f'I could not scrape the featured image on {url_jpl}...')
     browser.quit()
     return (featured_image_url)
 
@@ -50,14 +59,18 @@ def get_facts(url_mars_facts=url_mars_facts):
     browser = visit_check_url(url_mars_facts)
     browser.quit()
     # reading the table from the url using pandas
-    table = pd.read_html(url_mars_facts)
-    #selecting the table containing Mars information
-    df_facts = table[0]
-    #renaming the columns
-    df_facts.columns = ['Description', 'Value']
-    #saving the table as an HTML and stripping \n character not known by html.
-    html_facts = df_facts.to_html(classes="table table-dark")
-    html_facts = html_facts.replace('\n','')
+    try:
+        table = pd.read_html(url_mars_facts)
+        #selecting the table containing Mars information
+        df_facts = table[0]
+        #renaming the columns
+        df_facts.columns = ['Description', 'Value']
+        #saving the table as an HTML and stripping \n character not known by html.
+        html_facts = df_facts.to_html(classes="table table-dark")
+        html_facts = html_facts.replace('\n','')
+        print(f'Yay! I scraped a lot of fun facts about Mars from {url_mars_facts}!')
+    except:
+        print(f' :( I had issue in scraping {url_mars_facts}')
     return(df_facts, html_facts)
 
 def get_hemispheres(url_hemisphere=url_hemisphere):
@@ -84,14 +97,15 @@ def get_hemispheres(url_hemisphere=url_hemisphere):
         item_dic['img_url'] = url
         browser.back()
         hemispheres.append(item_dic)
-        browser.quit()
-        return(hemispheres)
+        print(f"I scraped the url of {item_dic['Title']}")
+    browser.quit()   
+    return(hemispheres)
 
 def scrape():
     info ={}
     news_title, paragraph = get_NASA()
     info["news_title"]= news_title
-    info["news_paragraph"]=news_p
+    info["news_paragraph"]=paragraph
 
     featured_image_url = get_JPL()
     info["Featured_image_url"] = featured_image_url
@@ -101,7 +115,7 @@ def scrape():
 
     hemispheres_images_urls = get_hemispheres()
     info["full_image_hemisphere_urls"]=hemispheres_images_urls
-
+    
     return info
 
     
