@@ -18,7 +18,7 @@ def visit_check_url(url, browser_to_use = 'chrome', text_check = 'Mars'):
     if browser.is_text_present(text_check):
         print("Yes, the official website was found!")
     else:
-        print("No, it wasn't found...")
+        print("No, the website wasn't found...")
     return(browser)
  
 def get_NASA(url_nasa=url_nasa):
@@ -64,9 +64,11 @@ def get_facts(url_mars_facts=url_mars_facts):
         #selecting the table containing Mars information
         df_facts = table[0]
         #renaming the columns
-        df_facts.columns = ['Description', 'Value']
+        df_facts.columns = ['Description', 'Mars']
+        # setting the description of the parameters as index
+        df_facts = df_facts.set_index('Description')
         #saving the table as an HTML and stripping \n character not known by html.
-        html_facts = df_facts.to_html(classes="table table-dark")
+        html_facts = df_facts.to_html(index_names=False, justify='center', classes="table table-striped table-sm")
         html_facts = html_facts.replace('\n','')
         print(f'Yay! I scraped a lot of fun facts about Mars from {url_mars_facts}!')
     except:
