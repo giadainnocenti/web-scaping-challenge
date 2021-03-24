@@ -29,7 +29,7 @@ The following websites were scraped:
    conn = "mongodb://localhost:27017/mission_to_mars"
    client = PyMongo(app, uri=conn)
    ````
-  _**Another important difference between the two approach to the problem is that with the first one your database is not updated with the scraped information while in the second it is.**_
+  _**Another important difference between the two approaches to the problem is that with the first one your database is not updated with the scraped information while in the second it is created and updated automatically.**_
   
 - [app.py](./Mission_to_Mars/app.py) was developed with two paths:
     1. The home root is rendering the database using the [html](./Mission_to_Mars/Templates/index.html) file created using [bootstraps](https://getbootstrap.com/docs/5.0/examples/).
