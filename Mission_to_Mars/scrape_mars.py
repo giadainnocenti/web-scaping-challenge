@@ -26,7 +26,6 @@ def get_NASA(url_nasa=url_nasa):
     browser = visit_check_url(url_nasa)
     #creating a BEautifulSoup object
     soup = bs(browser.html, 'html.parser')   
-    
     try:
         #reading the latest News Title
         news_title = soup.find_all('div', class_='content_title')[0].text
@@ -68,12 +67,12 @@ def get_facts(url_mars_facts=url_mars_facts):
         # setting the description of the parameters as index
         df_facts = df_facts.set_index('Description')
         #saving the table as an HTML and stripping \n character not known by html.
-        html_facts = df_facts.to_html(index_names=False, justify='center', classes="table table-striped table-sm")
+        html_facts = df_facts.to_html(index_names=False, justify='center', classes="table table-striped table-sm", border = 0)
         html_facts = html_facts.replace('\n','')
         print(f'Yay! I scraped a lot of fun facts about Mars from {url_mars_facts}!')
     except:
         print(f' :( I had issue in scraping {url_mars_facts}')
-    return(df_facts, html_facts)
+    return(html_facts)
 
 def get_hemispheres(url_hemisphere=url_hemisphere):
     browser = visit_check_url(url_hemisphere)
@@ -112,7 +111,7 @@ def scrape():
     featured_image_url = get_JPL()
     info["Featured_image_url"] = featured_image_url
 
-    df_facts, html_facts = get_facts()
+    html_facts = get_facts()
     info['mars_facts'] = html_facts
 
     hemispheres_images_urls = get_hemispheres()
